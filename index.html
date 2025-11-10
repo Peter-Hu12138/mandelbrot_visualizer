@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+    <canvas  id="myCanvas" width="500" height="500" style="border:1px solid #000000;">
+    </canvas>
+        <input type="number" id="acorn" placeholder="a coord">
+        <input type="number" id="bcorn" placeholder="b coord">
+        <input type="number" id="size" placeholder="size">
+        <button id="enter">Generate</button>
+    </center>
+
+<script>
+    function color(count){
+        if (count >= 1000) {
+            return "black";
+        }
+        else{
+            return "white";
+        }
+    }
+    const acorn_input = document.querySelector("#acorn")
+    const bcorn_input = document.querySelector("#bcorn")
+    const size_input = document.querySelector("#size")
+    const button = document.querySelector("#enter")
+
+    button.addEventListener('click', () => {
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+        let acorn = parseFloat(acorn_input.value);
+        let bcorn = parseFloat(bcorn_input.value);
+        let size = parseFloat(size_input.value);
+
+        for (let j = 0; j < 500; j++) {
+            for (let k = 0; k < 500; k++) {
+                let count = 0;
+                let ca = acorn + j * size / 500;
+                let cb = bcorn - k * size / 500;
+                let zx = 0;
+                let zy = 0;
+
+                while (count <= 1000 && zx * zx + zy * zy <= 4){
+                    count++;
+                    let xtemp = zx ** 2 - zy ** 2;
+                    zy = 2 * zx * zy + cb;
+                    zx = xtemp + ca;
+                }
+                let clr = color(count)
+                ctx.fillStyle = clr;
+                ctx.fillRect(j, k, 1, 1)
+
+            }            
+        }
+    })
+</script>
+</body>
+</html>
